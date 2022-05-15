@@ -1,7 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using NewsState.DataLayer;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+#region config database
+builder.Services.AddDbContext<NewsStateDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Context")));
+#endregion
+
+
 
 var app = builder.Build();
 
