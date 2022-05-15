@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NewsState.DataLayer.Entities;
 
 namespace NewsState.DataLayer
 {
@@ -8,6 +9,9 @@ namespace NewsState.DataLayer
         {
             
         }
+
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
