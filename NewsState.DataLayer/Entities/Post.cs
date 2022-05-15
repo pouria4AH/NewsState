@@ -11,7 +11,7 @@ namespace NewsState.DataLayer.Entities
         [MaxLength(50, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public string Title { get; set; }
-        [Display(Name = "نام عکس")]
+        [Display(Name = "زمان متن")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [Range(0,int.MaxValue)]
         public int ReadTime { get; set; }
