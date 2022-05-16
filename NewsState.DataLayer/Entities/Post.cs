@@ -24,6 +24,10 @@ namespace NewsState.DataLayer.Entities
         [Display(Name = "متن مقاله")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public string PostText { get; set; }
+
+        [Display(Name = "نویسنده")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        public string Writer { get; set; }
         #endregion
 
         #region relation

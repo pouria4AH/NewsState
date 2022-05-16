@@ -32,7 +32,8 @@ namespace NewsState.Application.Services.Implementations
                     PostText = post.PostText,
                     ReadTime = post.ReadTime,
                     TagId = post.TagId,
-                    Title = post.Title
+                    Title = post.Title,
+                    Writer = post.Writer
                 };
 
                 if (image != null && image.IsImage())

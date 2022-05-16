@@ -16,6 +16,10 @@ namespace NewsState.DataLayer.Dtos
         public string PostText { get; set; }
 
         public long TagId { get; set; }
+
+        [Display(Name = "نویسنده")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        public string Writer { get; set; }
     }
 
     public enum CreatePostResult
