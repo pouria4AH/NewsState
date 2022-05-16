@@ -21,8 +21,4 @@
     <ProjectReference Include="..\NewsState.DataLayer\NewsState.DataLayer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
 </Project>
