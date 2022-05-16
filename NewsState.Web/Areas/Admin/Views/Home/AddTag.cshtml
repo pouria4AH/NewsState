@@ -1,0 +1,30 @@
+﻿@model NewsState.DataLayer.Dtos.CreateTagDto
+@{
+    ViewData["Title"] = "اضافه کردن تگ";
+}
+
+<div class="col-sm-12">
+    <div class="card">
+        <div class="card-header">
+            <h5>تگ جدید</h5>
+        </div>
+        <div class="card-body">
+            <form method="post"  enctype="multipart/form-data" asp-area="Admin" asp-controller="Home" asp-action="AddTag">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label class="floating-label">تگ</label>
+                        <input type="text" class="form-control" asp-for="TagName">
+                        <span class="text-danger" asp-validation-for="TagName"></span>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="floating-label">عکس</label>
+                        <input type="file" name="image" class="form-control" >
+                    </div>
+                </div>
+                <button type="submit" class="btn  btn-success mt-2">ارسال</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<partial name="_ValidationScriptsPartial"/>

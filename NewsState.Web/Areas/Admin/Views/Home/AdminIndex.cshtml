@@ -31,12 +31,12 @@
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label class="floating-label" >تگ ها</label>
-                            <select id="inputState" class="form-control">
+                            <select id="inputState" class="form-control" asp-for="TagId">
                                 @if (listTag != null && listTag.Any())
                                 {
                                     @foreach (var tag in listTag)
                                     {
-                                        <option value="@tag.Id">@tag.TagName</option>
+                                        <option value="@tag.Id"  >@tag.TagName</option>
                                     }
                                 }
                             </select>
@@ -44,7 +44,9 @@
                     </div>
                     <div class="col-sm-6">
                         <label class="floating-label">نویسنده</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" asp-for="Writer">
+                        <span class="text-danger" asp-validation-for="Writer"></span>
+
                     </div>
                     <div class="col-sm-6">
                         <label class="floating-label">عکس</label>
@@ -55,7 +57,7 @@
                         <span class="text-danger" asp-validation-for="PostText"></span>
                     </div>
                 </div>
-                <button type="submit" class="btn  btn-success">ارسال</button>
+                <button type="submit" class="btn  btn-success mt-2">ارسال</button>
             </form>
         </div>
     </div>

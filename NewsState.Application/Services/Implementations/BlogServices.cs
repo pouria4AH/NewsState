@@ -61,17 +61,17 @@ namespace NewsState.Application.Services.Implementations
         #endregion
 
         #region Tag
-        public async Task<CreateTagResult> CreateTag(CreateTagDto tag)
+        public async Task<CreateTagResult> CreateTag(CreateTagDto tag, IFormFile image)
         {
             try
             {
                 var newTag = new Tag();
                 newTag.TagName = tag.TagName;
 
-                if (tag.Image != null && tag.Image.IsImage())
+                if (image != null && image.IsImage())
                 {
-                    var imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(tag.Image.FileName);
-                    var res = tag.Image.AddImageToServer(imageName, PathExtension.PostOriginServer, 400, 400,
+                    var imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(image.FileName);
+                    var res = image.AddImageToServer(imageName, PathExtension.PostOriginServer, 400, 400,
                         PathExtension.PostThumbServer);
                     if (res)
                     {
