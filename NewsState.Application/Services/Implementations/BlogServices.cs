@@ -44,21 +44,49 @@ namespace NewsState.Application.Services.Implementations
                     if (res)
                     {
                         newPost.ImageName = imageName;
+                        await _postRepository.AddEntity(newPost);
+                        await _postRepository.SaveChanges();
+                        return CreatePostResult.Success;
                     }
 
-                    return CreatePostResult.ImageIsNotValid;
                 }
-
-                await _postRepository.AddEntity(newPost);
-                await _postRepository.SaveChanges();
-                return CreatePostResult.Success;
+                return CreatePostResult.ImageIsNotValid;
             }
             catch (Exception e)
             {
                 return CreatePostResult.Error;
             }
         }
+        #endregion
 
+        #region Tag
+        public async Task<CreateTagResult> CreateTag(CreateTagDto tag)
+        {
+            try
+            {
+                var newTag = new Tag();
+                newTag.TagName = tag.TagName;
+
+                if (tag.Image != null && tag.Image.IsImage())
+                {
+                    var imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(tag.Image.FileName);
+                    var res = tag.Image.AddImageToServer(imageName, PathExtension.PostOriginServer, 400, 400,
+                        PathExtension.PostThumbServer);
+                    if (res)
+                    {
+                        newTag.ImageName = imageName;
+                        await _tagRepository.AddEntity(newTag);
+                        await _tagRepository.SaveChanges();
+                        return CreateTagResult.Success;
+                    }
+                }
+                return CreateTagResult.ImageIsNotValid;
+            }
+            catch (Exception e)
+            {
+                return CreateTagResult.Error;
+            }
+        }
         #endregion
 
         #region dispose
