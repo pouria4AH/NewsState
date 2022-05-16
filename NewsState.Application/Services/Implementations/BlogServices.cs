@@ -1,5 +1,6 @@
 ﻿using MarketPlace.Application.Utils;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using NewsState.Application.Extensions;
 using NewsState.Application.Services.interfaces;
 using NewsState.DataLayer.Dtos;
@@ -87,6 +88,12 @@ namespace NewsState.Application.Services.Implementations
                 return CreateTagResult.Error;
             }
         }
+
+        public async Task<List<Tag>> ListTags()
+        {
+            return await _tagRepository.GetQuery().AsQueryable().Where(x => !x.IsDelete).ToListAsync();
+        }
+
         #endregion
 
         #region dispose

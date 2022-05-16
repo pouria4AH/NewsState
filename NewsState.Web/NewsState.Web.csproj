@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NewsState.Application\NewsState.Application.csproj" />
     <ProjectReference Include="..\NewsState.DataLayer\NewsState.DataLayer.csproj" />
   </ItemGroup>
 

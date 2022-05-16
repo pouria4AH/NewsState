@@ -1,1 +1,43 @@
-﻿
+﻿@using NewsState.DataLayer.Entities
+@{
+    ViewData["Title"] = "اضافه کردن پست";
+    var listTag = ViewBag.ListTag as List<Tag>;
+}
+<div class="col-sm-12">
+    <div class="card">
+        <div class="card-header">
+            <h5>Basic Component</h5>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="floating-label">عنوان</label>
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="floating-label" >مدت زمان به دقیقه</label>
+                            <input type="number" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <select id="inputState" class="form-control">
+                               @if (listTag != null && listTag.Any())
+                               {
+                                   @foreach (var tag in listTag)
+                                   {
+                                       <option value="@tag.Id">@tag.TagName</option>
+                                   }
+                               }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using NewsState.Application.Services.Implementations;
+using NewsState.Application.Services.interfaces;
 using NewsState.DataLayer;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddScoped<IBlogServices, BlogServices>();
 
 #region config database
 builder.Services.AddDbContext<NewsStateDbContext>(options =>
