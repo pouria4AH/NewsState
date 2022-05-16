@@ -22,19 +22,19 @@ namespace NewsState.Application.Services.Implementations
         }
         #endregion
 
-        #region post
-        public async Task<CreatePostResult> CreatePost(CreatePost post, IFormFile image)
+        #region postDto
+        public async Task<CreatePostResult> CreatePost(CreatePostDto postDto, IFormFile image)
         {
             try
             {
                 var newPost = new Post
                 {
                     IsActive = true,
-                    PostText = post.PostText,
-                    ReadTime = post.ReadTime,
-                    TagId = post.TagId,
-                    Title = post.Title,
-                    Writer = post.Writer
+                    PostText = postDto.PostText,
+                    ReadTime = postDto.ReadTime,
+                    TagId = postDto.TagId,
+                    Title = postDto.Title,
+                    Writer = postDto.Writer
                 };
 
                 if (image != null && image.IsImage())

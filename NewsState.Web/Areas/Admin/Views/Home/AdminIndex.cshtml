@@ -1,4 +1,5 @@
 ﻿@using NewsState.DataLayer.Entities
+@model NewsState.DataLayer.Dtos.CreatePostDto
 @{
     ViewData["Title"] = "اضافه کردن پست";
     var listTag = ViewBag.ListTag as List<Tag>;
@@ -6,38 +7,114 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header">
-            <h5>Basic Component</h5>
+            <h5>پست جدید</h5>
         </div>
         <div class="card-body">
-            <form>
+            <form method="post" enctype="multipart/form-data"
+                  asp-area="Admin" asp-controller="Home" asp-action="Index">
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label class="floating-label">عنوان</label>
-                            <input type="text" class="form-control">
+                            <input  class="form-control" asp-for="Title">
+                            <span class="text-danger" asp-validation-for="Title"></span>
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label class="floating-label" >مدت زمان به دقیقه</label>
-                            <input type="number" class="form-control">
+                            <input  class="form-control" asp-for="ReadTime">
+                            <span class="text-danger" asp-validation-for="ReadTime"></span>
+
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="form-group">
+                            <label class="floating-label" >تگ ها</label>
                             <select id="inputState" class="form-control">
-                               @if (listTag != null && listTag.Any())
-                               {
-                                   @foreach (var tag in listTag)
-                                   {
-                                       <option value="@tag.Id">@tag.TagName</option>
-                                   }
-                               }
+                                @if (listTag != null && listTag.Any())
+                                {
+                                    @foreach (var tag in listTag)
+                                    {
+                                        <option value="@tag.Id">@tag.TagName</option>
+                                    }
+                                }
                             </select>
                         </div>
                     </div>
+                    <div class="col-sm-6">
+                        <label class="floating-label">نویسنده</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="floating-label">عکس</label>
+                        <input type="file" name="image" class="form-control" >
+                    </div>
+                    <div class="col-sm-12 mt-2">
+                        <textarea class="form-control" rows="10" asp-for="PostText" ckeditor="1" ></textarea>
+                        <span class="text-danger" asp-validation-for="PostText"></span>
+                    </div>
                 </div>
+                <button type="submit" class="btn  btn-success">ارسال</button>
             </form>
         </div>
     </div>
 </div>
+
+@section script
+{
+    <script>
+    $(document).ready(function () {
+        var editors = $("[ckeditor]");
+        if (editors.length > 0) {
+            $.getScript('/Admin/assets/js/ckeditor.js', function () {
+                $(editors).each(function (index, value) {
+                    var id = $(value).attr('ckeditor');
+                    ClassicEditor.create(document.querySelector('[ckeditor="' + id + '"]'),
+                            {
+                                toolbar: {
+                                    items: [
+                                        'heading',
+                                        '|',
+                                        'bold',
+                                        'italic',
+                                        'link',
+                                        '|',
+                                        'fontSize',
+                                        'fontColor',
+                                        '|',
+                                        'imageUpload',
+                                        'blockQuote',
+                                        'insertTable',
+                                        'undo',
+                                        'redo',
+                                        'codeBlock'
+                                    ]
+                                },
+                                language: 'fa',
+                                table: {
+                                    contentToolbar: [
+                                        'tableColumn',
+                                        'tableRow',
+                                        'mergeTableCells'
+                                    ]
+                                },
+                                licenseKey: '',
+                                simpleUpload: {
+                                    // The URL that the images are uploaded to.
+                                    uploadUrl: '/Uploader/UploadImage'
+                                }
+
+                            })
+                        .then(editor => {
+                            window.editor = editor;
+                        }).catch(err => {
+                            console.error(err);
+                        });
+                });
+            });
+        }
+    });
+</script>
+}
+<partial name="_ValidationScriptsPartial"/>

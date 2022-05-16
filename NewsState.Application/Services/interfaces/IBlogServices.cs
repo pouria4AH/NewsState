@@ -6,7 +6,7 @@ namespace NewsState.Application.Services.interfaces
 {
     public interface IBlogServices : IAsyncDisposable
     {
-        Task<CreatePostResult> CreatePost(CreatePost post, IFormFile file);
+        Task<CreatePostResult> CreatePost(CreatePostDto postDto, IFormFile file);
         Task<CreateTagResult> CreateTag(CreateTagDto tag);
         Task<List<Tag>> ListTags();
     }

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using NewsState.Application.Services.Implementations;
 using NewsState.Application.Services.interfaces;
 using NewsState.DataLayer;
+using NewsState.DataLayer.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IBlogServices, BlogServices>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 #region config database
 builder.Services.AddDbContext<NewsStateDbContext>(options =>

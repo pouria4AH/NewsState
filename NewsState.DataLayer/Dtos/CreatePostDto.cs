@@ -2,7 +2,7 @@
 
 namespace NewsState.DataLayer.Dtos
 {
-    public class CreatePost
+    public class CreatePostDto
     {
         public string Title { get; set; }
         [Display(Name = "زمان متن")]
