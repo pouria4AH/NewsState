@@ -1,4 +1,7 @@
-﻿namespace NewsState.Application.Extensions
+﻿using MarketPlace.Application.Utils;
+using Microsoft.AspNetCore.Http;
+
+namespace NewsState.Application.Extensions
 {
     public static class UploadImageExtension
     {
