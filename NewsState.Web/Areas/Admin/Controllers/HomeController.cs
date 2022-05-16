@@ -26,9 +26,24 @@ namespace NewsState.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var res = await _blogServices.CreatePost(post, image);
+                switch (res)
+                {
+                    case CreatePostResult.Error:
+                        TempData[ErrorMessage] = "مشکلی پیش امده است دوباره تلاش کنید";
+                        break;
+                    case CreatePostResult.ImageIsNotValid:
+                        TempData[WarningMessage] = "عکس وارد شده معتبر نمی باشد";
+                        break;
+                    case CreatePostResult.Success:
+                        TempData[SuccessMessage] = "عملیات با موفقیت انجام شد";
+                        break;
+                }
             }
+            TempData[ErrorMessage] = "مشکلی پیش امده است دوباره تلاش کنید";
 
-            return View("AdminIndex");
+            return View("AdminIndex", post);
         }
+
+
     }
 }

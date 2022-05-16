@@ -1,3 +1,5 @@
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using Microsoft.EntityFrameworkCore;
 using NewsState.Application.Services.Implementations;
 using NewsState.Application.Services.interfaces;
@@ -17,7 +19,14 @@ builder.Services.AddDbContext<NewsStateDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Context")));
 #endregion
 
+#region html encoder
 
+builder.Services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[]
+{
+    UnicodeRanges.BasicLatin , UnicodeRanges.Arabic
+}));
+
+#endregion
 
 var app = builder.Build();
 

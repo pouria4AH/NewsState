@@ -4,6 +4,8 @@ namespace NewsState.DataLayer.Dtos
 {
     public class CreatePostDto
     {
+        [Display(Name = "عنوان")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public string Title { get; set; }
         [Display(Name = "زمان متن")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
