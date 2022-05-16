@@ -9,5 +9,6 @@ namespace NewsState.Application.Services.interfaces
         Task<CreatePostResult> CreatePost(CreatePostDto postDto, IFormFile image);
         Task<CreateTagResult> CreateTag(CreateTagDto tag, IFormFile image);
         Task<List<Tag>> ListTags();
+        Task<List<ShowShortPostDto>> GetLastPost();
     }
 }

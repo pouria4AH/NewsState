@@ -58,6 +58,18 @@ namespace NewsState.Application.Services.Implementations
                 return CreatePostResult.Error;
             }
         }
+
+        public async Task<List<ShowShortPostDto>> GetLastPost()
+        {
+            return await _postRepository.GetQuery().AsQueryable().Include(x => x.Tag).Where(x => !x.IsDelete)
+                .OrderBy(x => x.CreateDate).Take(3).Select(x => new ShowShortPostDto
+                {
+                    Title = x.Title,
+                    ReadTime = x.ReadTime,
+                    ImageName = x.ImageName,
+                    Date = x.CreateDate.ToStringShamsiDate()
+                }).ToListAsync();
+        }
         #endregion
 
         #region Tag
@@ -93,6 +105,7 @@ namespace NewsState.Application.Services.Implementations
         {
             return await _tagRepository.GetQuery().AsQueryable().Where(x => !x.IsDelete).ToListAsync();
         }
+
 
         #endregion
 
