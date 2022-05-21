@@ -24,7 +24,9 @@ namespace NewsState.Web.Controllers
         [HttpGet("post/{id}")]
         public async Task<IActionResult> Post(long id)
         {
-            return View();
+            var post = await _blogServices.GetPost(id);
+            if (post == null) return RedirectToAction("Index");
+            return View(post);
         }
     }
 }

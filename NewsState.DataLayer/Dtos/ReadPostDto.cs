@@ -14,5 +14,6 @@ namespace NewsState.DataLayer.Dtos
         public string ImageName { get; set; }
         public string PostText { get; set; }
         public string Writer { get; set; }
+        public string Date { get; set; }
     }
 }

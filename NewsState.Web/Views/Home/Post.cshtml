@@ -1,1 +1,36 @@
-﻿
+﻿@using NewsState.Application.Extensions
+@model NewsState.DataLayer.Dtos.ReadPostDto
+<section class="blog-post section-header-offset">
+        <div class="blog-post-container container">
+            <div class="blog-post-data">
+                <h3 class="title blog-post-title">@Model.Title</h3>
+                <div class="article-data">
+                    <span>@Model.Date</span>
+                    <span class="article-data-spacer"></span>
+                    <span>@Model.ReadTime Min read</span>
+                </div>
+                <img src="@(PathExtension.PostOrigin + Model.ImageName)" >
+            </div>
+
+            <div class="container">
+                @Html.Raw(Model.PostText)
+
+                <div class="author d-grid">
+                    <div class="author-about">
+                        <h3 class="author-name">@Model.Writer</h3>
+                        <ul class="list social-media">
+                            <li class="list-item">
+                                <a href="#" class="list-link"><i class="ri-instagram-line"></i></a>
+                            </li>
+                            <li class="list-item">
+                                <a href="#" class="list-link"><i class="ri-facebook-circle-line"></i></a>
+                            </li>
+                            <li class="list-item">
+                                <a href="#" class="list-link"><i class="ri-twitter-line"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>

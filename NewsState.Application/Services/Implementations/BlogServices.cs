@@ -127,7 +127,8 @@ namespace NewsState.Application.Services.Implementations
                 ImageName = post.ImageName,
                 PostText = post.PostText,
                 Title = post.Title,
-                Writer = post.Writer
+                Writer = post.Writer,
+                Date = post.CreateDate.ToStringShamsiDate()
             };
         }
 
