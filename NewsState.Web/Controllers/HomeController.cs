@@ -14,9 +14,16 @@ namespace NewsState.Web.Controllers
             _blogServices = blogServices;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             ViewBag.ListTag = await _blogServices.ListTags();
+            var lastPost = await _blogServices.GetLastPost();
+            return View(lastPost);
+        }
+        [HttpGet("post/{id}")]
+        public async Task<IActionResult> Post(long id)
+        {
             return View();
         }
     }

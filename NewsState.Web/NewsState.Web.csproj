@@ -25,4 +25,12 @@
     <Folder Include="wwwroot\Content\Images\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Home\Post.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Home\Post.cshtml" />
+  </ItemGroup>
+
 </Project>

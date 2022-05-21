@@ -1,4 +1,10 @@
-﻿ <!-- Featured articles -->
+﻿@using NewsState.Application.Extensions
+@using NewsState.DataLayer.Entities
+@model List<NewsState.DataLayer.Dtos.ShowShortPostDto>
+@{
+    var tags = ViewBag.ListTag as List<Tag>;
+}
+<!-- Featured articles -->
  <section class="featured-articles section section-header-offset">
 
     <div class="featured-articles-container container d-grid">
@@ -12,59 +18,35 @@
                 <span class="headline-description">SAMSUNG and XBOX coopration on brand new Smart TV...</span>
             </div>
 
-            <a href="post 1.html" class="article featured-article featured-article-1">
-                <img src="pictures/number 1.jpg" alt="" class="article-image">
-                <span class="article-category">Technology</span>
+            @if (Model != null && Model.Any())
+            {
+                var index = 1;
+                @foreach (var post in Model)
+                {
+                    <a asp-area="" asp-controller="Home" asp-action="Post" asp-route-id="@post.Id" 
+                       class="article featured-article featured-article-@index">
+                        <img src="@(PathExtension.PostOrigin + post.ImageName)" class="article-image">
+                        <span class="article-category">@post.TagName</span>
 
-                <div class="article-data-container">
+                        <div class="article-data-container">
 
-                    <div class="article-data">
-                        <span>jan 5th 2022</span>
-                        <span class="article-data-spacer"></span>
-                        <span>8 Min read</span>
-                    </div>
+                            <div class="article-data">
+                                <span>@post.Date</span>
+                                <span class="article-data-spacer"></span>
+                                <span>@post.ReadTime Min read</span>
+                            </div>
 
-                    <h3 class="title article-title">Is VR the future?</h3>
+                            <h3 class="title article-title">@post.Title</h3>
 
-                </div>
-            </a>
+                        </div>
+                    </a>
+                    index++;
+                }
+            }
 
-            <a href="post 2.html" class="article featured-article featured-article-2">
-                <img src="pictures/Number 2.jpg" alt="" class="article-image">
-                <span class="article-category">Food</span>
-
-                <div class="article-data-container">
-
-                    <div class="article-data">
-                        <span>jan 6th 2022</span>
-                        <span class="article-data-spacer"></span>
-                        <span>4 Min read</span>
-                    </div>
-
-                    <h3 class="title article-title">Fine dining 101</h3>
-
-                </div>
-            </a>
-
-            <a href="post 3.html" class="article featured-article featured-article-3">
-                <img src="pictures/Number 3.jpg" alt="" class="article-image">
-                <span class="article-category">Health</span>
-
-                <div class="article-data-container">
-
-                    <div class="article-data">
-                        <span>jan 5th 2022</span>
-                        <span class="article-data-spacer"></span>
-                        <span>5 Min read</span>
-                    </div>
-
-                    <h3 class="title article-title">Natural fat burner</h3>  
-
-                </div>
-            </a>
 
         </div>
-        
+
         <div class="sidebar d-grid">
 
             <h3 class="title featured-content-title">Trending news</h3>
@@ -346,25 +328,17 @@
 
         <div class="popular-tags-container d-grid">
 
-            <a href="#" class="article">
-                <span class="tag-name">#Travel</span>
-                <img src="pictures/Categories/travel-tag.jpg" alt="" class="article-image">
-            </a>
+           @if (tags != null && tags.Any())
+           {
+               @foreach (var tag in tags)
+               {
+                   <a href="#" class="article">
+                       <span class="tag-name">#@tag.TagName</span>
+                       <img src="@(PathExtension.TagOrigin + tag.ImageName)" class="article-image">
+                   </a>
+               }
+           }
 
-            <a href="#" class="article">
-                <span class="tag-name">#Food</span>
-                <img src="pictures/Categories/food-tag.jpg" alt="" class="article-image">
-            </a>
-
-            <a href="#" class="article">
-                <span class="tag-name">#Technology</span>
-                <img src="pictures/Categories/technology-tag.jpg" alt="" class="article-image">
-            </a>
-
-            <a href="#" class="article">
-                <span class="tag-name">#Health</span>
-                <img src="pictures/Categories/health-tag.jpg" alt="" class="article-image">
-            </a>
         </div>
 
     </div>
