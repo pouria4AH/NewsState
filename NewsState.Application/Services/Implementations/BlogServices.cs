@@ -1,4 +1,5 @@
-﻿using MarketPlace.Application.Utils;
+﻿using System.Security.Cryptography.X509Certificates;
+using MarketPlace.Application.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using NewsState.Application.Extensions;
@@ -22,7 +23,7 @@ namespace NewsState.Application.Services.Implementations
         }
         #endregion
 
-        #region postDto
+        #region post
         public async Task<CreatePostResult> CreatePost(CreatePostDto postDto, IFormFile image)
         {
             try
@@ -61,15 +62,75 @@ namespace NewsState.Application.Services.Implementations
 
         public async Task<List<ShowShortPostDto>> GetLastPost()
         {
-            return await _postRepository.GetQuery().AsQueryable().Include(x => x.Tag).Where(x => !x.IsDelete)
-                .OrderBy(x => x.CreateDate).Take(3).Select(x => new ShowShortPostDto
+            return await _postRepository.GetQuery().AsQueryable()
+                .Include(x => x.Tag)
+                .Where(x => !x.IsDelete && x.IsActive)
+                .OrderByDescending(x => x.CreateDate)
+                .Take(3).Select(x => new ShowShortPostDto
                 {
+                    Id = x.Id,
                     Title = x.Title,
                     ReadTime = x.ReadTime,
                     ImageName = x.ImageName,
-                    Date = x.CreateDate.ToStringShamsiDate()
+                    Date = x.CreateDate.ToStringShamsiDate(),
+                    TagName = x.Tag.TagName
                 }).ToListAsync();
         }
+
+        public async Task<ShowShortPostDto> GetShortPost()
+        {
+            var minTime = await _postRepository.GetQuery().AsQueryable()
+                .MinAsync(x => x.ReadTime);
+            var post = await _postRepository.GetQuery()
+                .Include(x => x.Tag)
+                .AsQueryable()
+                .Where(x => !x.IsDelete && x.IsActive)
+                .OrderByDescending(x => x.CreateDate)
+                .FirstOrDefaultAsync(x=>x.ReadTime == minTime);
+            if (post == null) return null;
+            return new ShowShortPostDto
+            {
+                ReadTime = post.ReadTime,
+                TagName = post.Tag.TagName,
+                Title = post.Title,
+                Date = post.CreateDate.ToStringShamsiDate(),
+                ImageName = post.ImageName,
+            };
+
+        }
+
+        public async Task<List<ShowShortPostDto>> GetOlderPosts()
+        {
+            return await _postRepository.GetQuery().AsQueryable()
+                .Include(x => x.Tag)
+                .Where(x => !x.IsDelete && x.IsActive)
+                .OrderBy(x => x.CreateDate)
+                .Take(4)
+                .Select(x => new ShowShortPostDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    ReadTime = x.ReadTime,
+                    ImageName = x.ImageName,
+                    Date = x.CreateDate.ToStringShamsiDate(),
+                    TagName = x.Tag.TagName
+                }).ToListAsync();
+        }
+
+        public async Task<ReadPostDto> GetPost(long postId)
+        {
+            var post = await _postRepository.GetEntityById(postId);
+            if(post == null || !post.IsActive) return null;
+            return new ReadPostDto
+            {
+                ReadTime = post.ReadTime,
+                ImageName = post.ImageName,
+                PostText = post.PostText,
+                Title = post.Title,
+                Writer = post.Writer
+            };
+        }
+
         #endregion
 
         #region Tag
@@ -83,8 +144,8 @@ namespace NewsState.Application.Services.Implementations
                 if (image != null && image.IsImage())
                 {
                     var imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(image.FileName);
-                    var res = image.AddImageToServer(imageName, PathExtension.PostOriginServer, 400, 400,
-                        PathExtension.PostThumbServer);
+                    var res = image.AddImageToServer(imageName, PathExtension.TagOriginServer, 400, 400,
+                        PathExtension.TagOriginServer);
                     if (res)
                     {
                         newTag.ImageName = imageName;
