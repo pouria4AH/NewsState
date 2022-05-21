@@ -1,8 +1,11 @@
 ﻿@using NewsState.Application.Extensions
+@using NewsState.DataLayer.Dtos
 @using NewsState.DataLayer.Entities
 @model List<NewsState.DataLayer.Dtos.ShowShortPostDto>
 @{
     var tags = ViewBag.ListTag as List<Tag>;
+    var shortPost = ViewBag.shortPost as ShowShortPostDto;
+    var olderPosts = ViewBag.olderPost as List<ReadPostDto>;
 }
 <!-- Featured articles -->
  <section class="featured-articles section section-header-offset">
@@ -23,23 +26,23 @@
                 var index = 1;
                 @foreach (var post in Model)
                 {
-                    <a asp-area="" asp-controller="Home" asp-action="Post" asp-route-id="@post.Id" 
+                            <a asp-area="" asp-controller="Home" asp-action="Post" asp-route-id="@post.Id" 
                        class="article featured-article featured-article-@index">
-                        <img src="@(PathExtension.PostOrigin + post.ImageName)" class="article-image">
-                        <span class="article-category">@post.TagName</span>
+                                <img src="@(PathExtension.PostOrigin + post.ImageName)" class="article-image">
+                                <span class="article-category">@post.TagName</span>
 
-                        <div class="article-data-container">
+                                <div class="article-data-container">
 
-                            <div class="article-data">
-                                <span>@post.Date</span>
-                                <span class="article-data-spacer"></span>
-                                <span>@post.ReadTime Min read</span>
-                            </div>
+                                    <div class="article-data">
+                                        <span>@post.Date</span>
+                                        <span class="article-data-spacer"></span>
+                                        <span>@post.ReadTime Min read</span>
+                                    </div>
 
-                            <h3 class="title article-title">@post.Title</h3>
+                                    <h3 class="title article-title">@post.Title</h3>
 
-                        </div>
-                    </a>
+                                </div>
+                            </a>
                     index++;
                 }
             }
@@ -163,58 +166,19 @@
             <!-- Additional required wrapper -->
             <div class="swiper-wrapper">
                 <!-- Slides -->
-                <a href="#" class="article swiper-slide">
-                    <img src="pictures/quick reads/quick_read_1.jpg" alt="" class="article-image">
+                <a asp-area="" asp-controller="Home" asp-action="Post" asp-route-id="@shortPost.Id" class="article swiper-slide">
+                    <img src="@(PathExtension.PostOrigin + shortPost.ImageName)" class="article-image">
 
                     <div class="article-data-container">
                         <div class="article-data">
-                            <span>23 jan 2022</span>
+                            <span>@shortPost.Date</span>
                             <span class="article-data-spacer"></span>
-                            <span>3 Min read</span>
+                            <span>@shortPost.ReadTime Min read</span>
                         </div>
-                        <h3 class="title article-title">Sample article title</h3>
+                        <h3 class="title article-title">@shortPost.Title</h3>
                     </div>
                 </a>
-                <!-- Slides -->
-                <a href="#" class="article swiper-slide">
-                    <img src="pictures/quick reads/quick_read_2.jpg" alt="" class="article-image">
-
-                    <div class="article-data-container">
-                        <div class="article-data">
-                            <span>23 jan 2022</span>
-                            <span class="article-data-spacer"></span>
-                            <span>3 Min read</span>
-                        </div>
-                        <h3 class="title article-title">Sample article title</h3>
-                    </div>
-                </a>
-                <!-- Slides -->
-                <a href="#" class="article swiper-slide">
-                    <img src="pictures/quick reads/quick_read_3.jpg" alt="" class="article-image">
-
-                    <div class="article-data-container">
-                        <div class="article-data">
-                            <span>23 jan 2022</span>
-                            <span class="article-data-spacer"></span>
-                            <span>3 Min read</span>
-                        </div>
-                        <h3 class="title article-title">Sample article title</h3>
-                    </div>
-                </a>
-                <!-- Slides -->
-                <a href="#" class="article swiper-slide">
-                    <img src="pictures/quick reads/quick_read_4.jpg" alt="" class="article-image">
-
-                    <div class="article-data-container">
-                        <div class="article-data">
-                            <span>23 jan 2022</span>
-                            <span class="article-data-spacer"></span>
-                            <span>3 Min read</span>
-                        </div>
-                        <h3 class="title article-title">Sample article title</h3>
-                    </div>
-                </a>
-            <!-- Navigation buttons -->
+                <!-- Navigation buttons -->
             <div class="swiper-button-prev swiper-controls"></div>
             <div class="swiper-button-next swiper-controls"></div>
             <!-- Pagination -->
@@ -234,88 +198,37 @@
 
         <div class="older-posts-grid-wrapper d-grid">
 
-            <a href="#" class="article d-grid">
-                <div class="older-posts-article-image-wrapper">
-                    <img src="pictures/older posts/older_posts_1.jpg" alt="" class="article-image">
-                </div>
+           @if (olderPosts != null && olderPosts.Any())
+           {
+               @foreach (var post in olderPosts)
+               {
+                   <a asp-area="" asp-controller="Home" asp-action="Post" asp-route-id="@post.Id" class="article d-grid">
+                       <div class="older-posts-article-image-wrapper">
+                           <img src="@(PathExtension.PostOrigin + post.ImageName)" class="article-image">
+                       </div>
 
-                <div class="article-data-container">
+                       <div class="article-data-container">
 
-                    <div class="article-data">
-                        <span>23 jan 2022</span>
-                        <span class="article-data-spacer"></span>
-                        <span>3 Min read</span>
-                    </div>
+                           <div class="article-data">
+                               <span>@post.Date</span>
+                               <span class="article-data-spacer"></span>
+                               <span>@post.ReadTime Min read</span>
+                           </div>
 
-                    <h3 class="title article-title">Sample article title</h3>
-                    <p class="article-description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Similique a tempore sapiente corporis, eaque fuga placeat odit voluptatibus.</p>
+                           <h3 class="title article-title">@post.Title</h3>
+                           <p class="article-description">@Html.Raw(post.PostText.Substring(0, Math.Min(post.PostText.Length, 75))) ...</p>
 
-                </div>
-            </a>
+                       </div>
+                   </a>
 
-            <a href="#" class="article d-grid">
-                <div class="older-posts-article-image-wrapper">
-                    <img src="pictures/older posts/older_posts_2.jpg" alt="" class="article-image">
-                </div>
-
-                <div class="article-data-container">
-
-                    <div class="article-data">
-                        <span>23 jan 2022</span>
-                        <span class="article-data-spacer"></span>
-                        <span>3 Min read</span>
-                    </div>
-
-                    <h3 class="title article-title">Sample article title</h3>
-                    <p class="article-description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Similique a tempore sapiente corporis, eaque fuga placeat odit voluptatibus.</p>
-
-                </div>
-            </a>
-
-            <a href="#" class="article d-grid">
-                <div class="older-posts-article-image-wrapper">
-                    <img src="pictures/older posts/older_posts_3.jpg" alt="" class="article-image">
-                </div>
-
-                <div class="article-data-container">
-
-                    <div class="article-data">
-                        <span>23 jan 2022</span>
-                        <span class="article-data-spacer"></span>
-                        <span>3 Min read</span>
-                    </div>
-
-                    <h3 class="title article-title">Sample article title</h3>
-                    <p class="article-description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Similique a tempore sapiente corporis, eaque fuga placeat odit voluptatibus.</p>
-
-                </div>
-            </a>
-
-            <a href="#" class="article d-grid">
-                <div class="older-posts-article-image-wrapper">
-                    <img src="pictures/older posts/older_posts_4.jpg" alt="" class="article-image">
-                </div>
-
-                <div class="article-data-container">
-
-                    <div class="article-data">
-                        <span>23 jan 2022</span>
-                        <span class="article-data-spacer"></span>
-                        <span>3 Min read</span>
-                    </div>
-
-                    <h3 class="title article-title">Sample article title</h3>
-                    <p class="article-description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Similique a tempore sapiente corporis, eaque fuga placeat odit voluptatibus.</p>
-
-                </div>
-            </a>
-
-                </div>
+               }
+           }
+        </div>
 
     </div>
 
         <div class="see-more-container">
-            <a href="#" class="btn see-more-btn place-items-center">See more <i class="ri-arrow-right-s-line"></i></i></a>
+            <a href="#" class="btn see-more-btn place-items-center">See more <i class="ri-arrow-right-s-line"></i></a>
         </div>
 </section>
 
@@ -328,16 +241,16 @@
 
         <div class="popular-tags-container d-grid">
 
-           @if (tags != null && tags.Any())
-           {
-               @foreach (var tag in tags)
-               {
-                   <a href="#" class="article">
-                       <span class="tag-name">#@tag.TagName</span>
-                       <img src="@(PathExtension.TagOrigin + tag.ImageName)" class="article-image">
-                   </a>
-               }
-           }
+            @if (tags != null && tags.Any())
+            {
+                @foreach (var tag in tags)
+                {
+                           <a href="#" class="article">
+                               <span class="tag-name">#@tag.TagName</span>
+                               <img src="@(PathExtension.TagOrigin + tag.ImageName)" class="article-image">
+                           </a>
+                }
+            }
 
         </div>
 

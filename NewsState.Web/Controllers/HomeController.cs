@@ -18,6 +18,9 @@ namespace NewsState.Web.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.ListTag = await _blogServices.ListTags();
+            ViewBag.shortPost = await _blogServices.GetShortPost();
+            ViewBag.olderPost = await _blogServices.GetOlderPosts();
+
             var lastPost = await _blogServices.GetLastPost();
             return View(lastPost);
         }

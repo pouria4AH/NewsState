@@ -11,7 +11,7 @@ namespace NewsState.Application.Services.interfaces
         Task<List<Tag>> ListTags();
         Task<List<ShowShortPostDto>> GetLastPost();
         Task<ShowShortPostDto> GetShortPost();
-        Task<List<ShowShortPostDto>> GetOlderPosts();
+        Task<List<ReadPostDto>> GetOlderPosts();
         Task<ReadPostDto> GetPost(long postId);
     }
 }

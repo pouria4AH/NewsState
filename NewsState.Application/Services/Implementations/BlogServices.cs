@@ -90,6 +90,7 @@ namespace NewsState.Application.Services.Implementations
             if (post == null) return null;
             return new ShowShortPostDto
             {
+                Id = post.Id,
                 ReadTime = post.ReadTime,
                 TagName = post.Tag.TagName,
                 Title = post.Title,
@@ -99,21 +100,21 @@ namespace NewsState.Application.Services.Implementations
 
         }
 
-        public async Task<List<ShowShortPostDto>> GetOlderPosts()
+        public async Task<List<ReadPostDto>> GetOlderPosts()
         {
             return await _postRepository.GetQuery().AsQueryable()
                 .Include(x => x.Tag)
                 .Where(x => !x.IsDelete && x.IsActive)
                 .OrderBy(x => x.CreateDate)
                 .Take(4)
-                .Select(x => new ShowShortPostDto
+                .Select(x => new ReadPostDto()
                 {
                     Id = x.Id,
                     Title = x.Title,
                     ReadTime = x.ReadTime,
                     ImageName = x.ImageName,
                     Date = x.CreateDate.ToStringShamsiDate(),
-                    TagName = x.Tag.TagName
+                    PostText = x.PostText
                 }).ToListAsync();
         }
 
@@ -123,12 +124,13 @@ namespace NewsState.Application.Services.Implementations
             if(post == null || !post.IsActive) return null;
             return new ReadPostDto
             {
+                Id = post.Id,
                 ReadTime = post.ReadTime,
                 ImageName = post.ImageName,
                 PostText = post.PostText,
                 Title = post.Title,
                 Writer = post.Writer,
-                Date = post.CreateDate.ToStringShamsiDate()
+                Date = post.CreateDate.ToStringShamsiDate(),
             };
         }
 
